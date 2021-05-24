@@ -47,19 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   final counterBloc = CounterBloc();
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,24 +86,43 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            StreamBuilder<Object>(
+            StreamBuilder(
                 stream: counterBloc.conterStream,
+                initialData: 0,
                 builder: (context, snapshot) {
                   return Text(
-                    '$_counter',
+                    '${snapshot.data}',
                     style: Theme.of(context).textTheme.headline4,
                   );
                 }),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _counter++;
-          counterBloc.counterSink.add(_counter);
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              counterBloc.eventSink.add(CounterAction.Inrement);
+            },
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              counterBloc.eventSink.add(CounterAction.Decrement);
+            },
+            tooltip: 'Decrement',
+            child: Icon(Icons.exposure_minus_1),
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              counterBloc.eventSink.add(CounterAction.Reset);
+            },
+            tooltip: 'Decrement',
+            child: Icon(Icons.delete),
+          )
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
