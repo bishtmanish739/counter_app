@@ -2,7 +2,6 @@ part of 'counter_cubit.dart';
 
 class CounterState {
   int counterValue;
-  CounterState({
-    required this.counterValue,
-  });
+  bool hasIncrement;
+  CounterState({required this.counterValue, required this.hasIncrement});
 }
