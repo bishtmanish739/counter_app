@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.of(context).pushNamed('/SecondPage');
                 },
-                child: Text('Third Screen')),
+                child: Text('Second Screen')),
             BlocConsumer<CounterCubit, CounterState>(
               listener: (context, state) {
                 if (state.hasIncrement == true) {

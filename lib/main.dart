@@ -1,6 +1,7 @@
 import 'package:counter_app/Presentation/Screen/home_screen.dart';
 import 'package:counter_app/Presentation/Screen/second_screen.dart';
 import 'package:counter_app/Presentation/Screen/third_screen.dart';
+import 'package:counter_app/Presentation/router/app_router.dart';
 import 'package:counter_app/businesslogic/cubit/counter_cubit.dart';
 
 import 'package:flutter/material.dart';
@@ -17,31 +18,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final CounterCubit _counterCubit = CounterCubit();
+  final AppRouter _appRouter = AppRouter();
   @override
   void dispose() {
-    _counterCubit.close();
+    _appRouter.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterCubit>(
-      create: (context) => CounterCubit(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        routes: {
-          '/': (context) => BlocProvider.value(
-              value: _counterCubit, child: MyHomePage(title: 'Counter App')),
-          '/SecondPage': (context) => BlocProvider.value(
-              value: _counterCubit, child: SecondPage(title: 'Counter App')),
-          '/ThirdPage': (context) => BlocProvider.value(
-              value: _counterCubit, child: ThirdPage(title: 'Counter App')),
-        },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      onGenerateRoute: _appRouter.onGeneratedRoute,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
     );
   }
